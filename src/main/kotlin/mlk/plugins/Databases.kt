@@ -1,4 +1,4 @@
-package mvl.plugins
+package mlk.plugins
 
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -17,8 +17,8 @@ fun Application.configureDatabases() {
             password = ""
         )
     val userService = UserService(database)
-    val dbConnection: Connection = connectToPostgres(embedded = true)
-    val cityService = CityService(dbConnection)
+    //val dbConnection: Connection = connectToPostgres(embedded = true)
+    val cityService = CityService(null)
     routing {
         // Create user
         post("/users") {

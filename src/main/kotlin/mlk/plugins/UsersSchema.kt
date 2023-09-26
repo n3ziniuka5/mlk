@@ -1,4 +1,4 @@
-package mvl.plugins
+package mlk.plugins
 
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

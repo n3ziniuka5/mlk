@@ -1,16 +1,17 @@
-package mvl
+package mlk
 
 import io.ktor.server.application.*
-import mvl.plugins.*
+import mlk.plugins.*
 
 fun main(args: Array<String>) {
+    println("application started")
     io.ktor.server.cio.EngineMain.main(args)
 }
 
 fun Application.module() {
-    configureSerialization()
+    //configureSerialization()
     configureDatabases()
-    configureMonitoring()
-    configureHTTP()
+    //configureMonitoring()
+    //configureHTTP()
     configureRouting()
 }

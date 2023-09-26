@@ -1,4 +1,4 @@
-package mvl.plugins
+package mlk.plugins
 
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
@@ -7,7 +7,7 @@ import java.sql.Statement
 
 @Serializable
 data class City(val name: String, val population: Int)
-class CityService(private val connection: Connection) {
+class CityService(private val connection: Connection?) {
     companion object {
         private const val CREATE_TABLE_CITIES =
             "CREATE TABLE CITIES (ID SERIAL PRIMARY KEY, NAME VARCHAR(255), POPULATION INT);"
@@ -18,16 +18,16 @@ class CityService(private val connection: Connection) {
 
     }
 
-    init {
-        val statement = connection.createStatement()
-        statement.executeUpdate(CREATE_TABLE_CITIES)
-    }
+//    init {
+//        val statement = connection!!.createStatement()
+//        statement.executeUpdate(CREATE_TABLE_CITIES)
+//    }
 
     private var newCityId = 0
 
     // Create new city
     suspend fun create(city: City): Int = withContext(Dispatchers.IO) {
-        val statement = connection.prepareStatement(INSERT_CITY, Statement.RETURN_GENERATED_KEYS)
+        val statement = connection!!.prepareStatement(INSERT_CITY, Statement.RETURN_GENERATED_KEYS)
         statement.setString(1, city.name)
         statement.setInt(2, city.population)
         statement.executeUpdate()
@@ -42,7 +42,7 @@ class CityService(private val connection: Connection) {
 
     // Read a city
     suspend fun read(id: Int): City = withContext(Dispatchers.IO) {
-        val statement = connection.prepareStatement(SELECT_CITY_BY_ID)
+        val statement = connection!!.prepareStatement(SELECT_CITY_BY_ID)
         statement.setInt(1, id)
         val resultSet = statement.executeQuery()
 
@@ -57,7 +57,7 @@ class CityService(private val connection: Connection) {
 
     // Update a city
     suspend fun update(id: Int, city: City) = withContext(Dispatchers.IO) {
-        val statement = connection.prepareStatement(UPDATE_CITY)
+        val statement = connection!!.prepareStatement(UPDATE_CITY)
         statement.setString(1, city.name)
         statement.setInt(2, city.population)
         statement.setInt(3, id)
@@ -66,7 +66,7 @@ class CityService(private val connection: Connection) {
 
     // Delete a city
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        val statement = connection.prepareStatement(DELETE_CITY)
+        val statement = connection!!.prepareStatement(DELETE_CITY)
         statement.setInt(1, id)
         statement.executeUpdate()
     }

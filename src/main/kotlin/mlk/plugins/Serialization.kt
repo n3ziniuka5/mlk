@@ -1,4 +1,4 @@
-package mvl.plugins
+package mlk.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
