@@ -1,10 +1,13 @@
 package mlk
 
 import io.ktor.server.application.*
+import io.ktor.util.logging.KtorSimpleLogger
 import mlk.plugins.*
 
+private val log = KtorSimpleLogger("main")
+
 fun main(args: Array<String>) {
-    println("application started")
+    log.info("application started")
     io.ktor.server.cio.EngineMain.main(args)
 }
 

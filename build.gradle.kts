@@ -1,3 +1,7 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import io.ktor.plugin.features.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
@@ -10,6 +14,14 @@ plugins {
     kotlin("jvm") version "1.9.10"
     id("io.ktor.plugin") version "2.3.4"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
+    id("org.graalvm.buildtools.native") version "0.9.27"
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 group = "mlk"
@@ -41,4 +53,14 @@ dependencies {
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+graalvmNative {
+    metadataRepository {
+        enabled.set(true)
+    }
+}
+
+tasks.named("shadowJar", ShadowJar::class) {
+    from(project.tasks.named("collectReachabilityMetadata"))
 }
