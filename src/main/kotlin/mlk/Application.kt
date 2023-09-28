@@ -7,7 +7,7 @@ import mlk.plugins.*
 private val log = KtorSimpleLogger("main")
 
 fun main(args: Array<String>) {
-    log.info("application started")
+    log.info("application starting...")
     io.ktor.server.cio.EngineMain.main(args)
 }
 

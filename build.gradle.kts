@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import io.ktor.plugin.features.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktor_version: String by project
@@ -11,8 +10,9 @@ val h2_version: String by project
 val postgres_version: String by project
 
 plugins {
+    application
     kotlin("jvm") version "1.9.10"
-    id("io.ktor.plugin") version "2.3.4"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
     id("org.graalvm.buildtools.native") version "0.9.27"
 }
@@ -63,4 +63,10 @@ graalvmNative {
 
 tasks.named("shadowJar", ShadowJar::class) {
     from(project.tasks.named("collectReachabilityMetadata"))
+}
+
+tasks.named("shadowJar", ShadowJar::class) {
+    archiveBaseName.set("app")
+    archiveVersion.set("")
+    archiveClassifier.set("")
 }

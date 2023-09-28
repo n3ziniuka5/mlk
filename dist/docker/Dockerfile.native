@@ -1,0 +1,11 @@
+FROM container-registry.oracle.com/graalvm/native-image:21 as builder
+
+COPY app.jar /opt/app.jar
+
+RUN native-image -O3 -march=native --gc=G1 --install-exit-handlers --enable-sbom --strict-image-heap --no-fallback -jar /opt/app.jar -o /opt/app
+
+FROM ubuntu:22.04
+
+COPY --from=builder /opt/app /opt/app
+
+ENTRYPOINT exec /opt/app $JAVA_OPTS
