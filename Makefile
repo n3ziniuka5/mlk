@@ -22,3 +22,6 @@ buildImage: build ## Build a docker image
 buildImageNative: build ## Build a docker image containing a native GraalVM image
 	cp build/libs/app.jar dist/docker/app.jar
 	cd dist/docker && docker buildx build -t ${IMAGE_NAME}-native -f Dockerfile.native .
+
+run: ## Run the application with auto reload on changes
+	./scripts/run-reload.sh
